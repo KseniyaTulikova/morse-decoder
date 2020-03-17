@@ -38,9 +38,35 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let message = '';
+    expr.match(/.{10}/g).forEach(binaryCode => {
+        message += binaryCode != "**********" ? decodeBinaryToAlphabet(binaryCode) : " "; 
+    });
+
+    return message;
+}
+const decodeBinaryToAlphabet = (binaryCode) => {
+    return decodeMorseToAlphabet(decodeBinaryToMorse(binaryCode));
+}
+
+const  decodeMorseToAlphabet = (morseCode) => {
+    return MORSE_TABLE[morseCode];
+}
+
+const decodeBinaryToMorse = (binaryCode) => {
+    let morseCode = '';
+    binaryCode.match(/.{2}/g).forEach(code => {
+        switch(code) {
+            case '11': morseCode += '-';
+                break;
+            case '10': morseCode += '.';
+                break;
+            default:
+        }
+    });
+    return morseCode;
 }
 
 module.exports = {
     decode
-}
+};
